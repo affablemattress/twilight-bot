@@ -1,0 +1,7 @@
+{
+    "help":{
+        "main": "main lorem ipsum",
+        "weather": "weather lorem ipsum"
+    },
+    "weatherDown": "Weather forecast service is down for a while. Try again later."
+}
