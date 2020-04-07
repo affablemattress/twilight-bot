@@ -4,5 +4,6 @@
         "weather": "weather lorem ipsum"
     },
     "down": "is down for a while. Try again later.",
-    "invalidProvince": "Make sure you have entered a valid province name."
+    "invalidProvince": "Make sure you have entered a valid province name.",
+    "HALThreatingText": "I think you know what the problem is just as well as I do."
 }

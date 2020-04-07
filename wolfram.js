@@ -1,7 +1,7 @@
 const fs = require("fs");
 
-const dump = JSON.parse(fs.readFileSync("src/dump.json"));
-const secrets = JSON.parse(fs.readFileSync("src/secrets.json"));
+const dump = JSON.parse(fs.readFileSync("./src/dump.json"));
+const secrets = JSON.parse(fs.readFileSync("./src/secrets.json"));
 
 module.exports = {
 	embedData: function (data, queryText) {
@@ -9,6 +9,7 @@ module.exports = {
 	}
 };
 
+//Input-> data: Hex data acquired from WolframAlpha Simple Answer API, queryText: URL encoded query which was sent to API. Return-> Discord.js embed object. 
 function embedData(data, queryText){
 	queryText = "Answer to Query: " + queryText[0].toUpperCase() + queryText.slice(1);
 	while(queryText.includes("%2B")) queryText = queryText.replace("%2B", "+");

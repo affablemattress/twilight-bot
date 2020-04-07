@@ -1,7 +1,7 @@
 const fs = require("fs");
 
-const dump = JSON.parse(fs.readFileSync("src/dump.json"));
-const secrets = JSON.parse(fs.readFileSync("src/secrets.json"));
+const dump = JSON.parse(fs.readFileSync("./src/dump.json"));
+const secrets = JSON.parse(fs.readFileSync("./src/secrets.json"));
 
 module.exports = {
 	embedNow: function (GETData) {

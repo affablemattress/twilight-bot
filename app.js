@@ -3,13 +3,14 @@ const http = require("http");
 const fs = require("fs");
 const weather = require("./weather.js");
 const wolfram = require("./wolfram.js")
+const dice = require("./dice.js")
 
 const secrets = JSON.parse(fs.readFileSync("./src/secrets.json"));
 const textDump = JSON.parse(fs.readFileSync("./src/textDump.json"));
 const dump = JSON.parse(fs.readFileSync("./src/dump.json"));
 
 const client = new Discord.Client();
-const commandChar = dump.defaultCommandChar;
+const commandChar = dump.commandChar;
 
 const helpText = "Unknown command. For help, type '"+ commandChar +"help' or '"+ commandChar +"help [command]'.";
 const miniHelpText = "For help, type '"+ commandChar +"help' or '"+ commandChar +"help [command]'.";
@@ -90,7 +91,7 @@ client.on("message", msg =>{
 					}
 				break;
 
-//Wolfram. Return series of images/embeds from WolframAlpha.
+//Wolfram. Return a simle text answer from WolframAlpha.
 			case "wolfram":
 				if(msgArray.length < 2){
 					msg.channel.send("Invalid wolfram command. " + miniHelpText);
@@ -116,6 +117,15 @@ client.on("message", msg =>{
 							msg.channel.send("WolframAlpha " + textDump.down);
 						}
 					})
+				}
+				break;
+
+//Dice. Return throw results as embed.
+			case "dice":
+				if(msgArray.length == 1){
+					msg.channel.send({embed: dice.embedDie(msg)})
+				} else {
+					msg.channel.send({embed: dice.embedDice(msgArray.slice(1), msg)})
 				}
 				break;
 
