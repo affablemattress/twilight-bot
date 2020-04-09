@@ -92,7 +92,10 @@ function embedDice(queryInput, msg){
 			var rollArray = [];
 			var uniqueSum = 0;
 			for(var k = 0; k<queries[uniqueQueries[i].toString()]; k++){
-				roll = Math.ceil(Math.random()*uniqueQueries[i]);
+				roll = Math.ceil(Math.random() * uniqueQueries[i]);
+				if(uniqueQueries[i] < 0){
+					roll --;
+				}
 				uniqueSum += roll;
 				sum += roll;
 				rollArray.push(" " + roll.toString());
