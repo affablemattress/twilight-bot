@@ -63,7 +63,6 @@ function embedForecast(GETData){
 		day.push(getDayWeather(GETData, nextDayIndex));
 		nextDayIndex += 8;
 	}
-	console.log(day);
 	var weatherEmbed = {
 		color: 0x00cbb0,
 		author: {

@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const http = require("http");
+const request = require("request");
 const fs = require("fs");
 const weather = require("./weather.js");
 const wolfram = require("./wolfram.js")
@@ -50,18 +50,11 @@ client.on("message", msg =>{
 						case "forecast":
 							var queryText = "";
 							for (var i=2; i < msgArray.length; i++) queryText += " " + msgArray[i]; queryText = queryText.trim();
-							http.get(encodeURI(secrets.api.openWeatherMap.URL + "forecast?q=" + queryText + "&units=metric&appid=" + secrets.api.openWeatherMap.key), (response) => {
+							request.get(encodeURI(secrets.api.openWeatherMap.URL + "forecast?q=" + queryText + "&units=metric&appid=" + secrets.api.openWeatherMap.key), (error, response, data) => {
 								if(response.statusCode == 200){
-									var chunks = [];
-									response.on('data', function(data) {
-										chunks.push(data);
-									});
-									response.on('end', function() {
-											var data   = Buffer.concat(chunks);
-											var GETData = JSON.parse(data);
-											var weatherEmbed = weather.embedForecast(GETData);
-											msg.channel.send({embed: weatherEmbed});
-									});
+									var GETData = JSON.parse(data);
+									var weatherEmbed = weather.embedForecast(GETData);
+									msg.channel.send({embed: weatherEmbed});
 								} else if(response.statusCode == 404){
 									msg.channel.send(textDump.invalidProvince);
 								} else{
@@ -73,13 +66,11 @@ client.on("message", msg =>{
 						default:
 							var queryText = ""
 							for (var i=1; i < msgArray.length; i++) queryText += " " + msgArray[i]; queryText = queryText.trim();
-							http.get(encodeURI(secrets.api.openWeatherMap.URL + "weather?q=" + queryText + "&units=metric&appid=" + secrets.api.openWeatherMap.key), (response) => {
+							request.get(encodeURI(secrets.api.openWeatherMap.URL + "weather?q=" + queryText + "&units=metric&appid=" + secrets.api.openWeatherMap.key), (error, response, data) => {
 								if(response.statusCode == 200){
-									response.on("data", (data) => {
-										var GETData = JSON.parse(data);
-										var weatherEmbed = weather.embedNow(GETData);
-										msg.channel.send({embed: weatherEmbed});
-									})
+									var GETData = JSON.parse(data);
+									var weatherEmbed = weather.embedNow(GETData);
+									msg.channel.send({embed: weatherEmbed});
 								}else if(response.statusCode == 404){
 									msg.channel.send(textDump.invalidProvince);
 								} else{
@@ -99,20 +90,10 @@ client.on("message", msg =>{
 					let queryText = ""
 					for (var i=1; i < msgArray.length; i++) queryText += " " + msgArray[i]; queryText = queryText.trim();
 					while(queryText.includes("+")) queryText = queryText.replace("+", "%2B");
-					http.get(secrets.api.wolframAlpha.URL + "result?i=" + queryText + "&units=metric&appid=" + secrets.api.wolframAlpha.key, (response) => {
+					request.get(secrets.api.wolframAlpha.URL + "result?i=" + queryText + "&units=metric&appid=" + secrets.api.wolframAlpha.key, (error, response, data) => {
 						if(response.statusCode == 200 || response.statusCode == 501){
-							var chunks = [];
-							response.on('data', function(data) {
-								chunks.push(data);
-							});
-							response.on('end', function() {
-									var data = Buffer.concat(chunks);
-									msg.channel.send({embed: wolfram.embedData(data, queryText)});
-							});
+							msg.channel.send({embed: wolfram.embedData(data, queryText)});
 						} else{
-							response.on('data', function(data) {
-								console.log(data.toString());
-							});
 							console.log("Wolfram" + response.statusCode);
 							msg.channel.send("WolframAlpha " + textDump.down);
 						}
