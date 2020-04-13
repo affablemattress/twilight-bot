@@ -8,6 +8,8 @@ module.exports = {
 	},
 };
 
+
+//Send help text from "textDump.json"
 function main(msgArray, msg){
 	if (msgArray.length == 1) {
 		msg.channel.send(textDump.help.main);
