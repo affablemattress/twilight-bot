@@ -4,6 +4,7 @@ const weather = require("./weather.js");
 const wolfram = require("./wolfram.js")
 const dice = require("./dice.js");
 const help = require("./help.js");
+const lyrics = require("./lyrics.js")
 
 const secrets = JSON.parse(fs.readFileSync("./src/secrets.json"));
 const dump = JSON.parse(fs.readFileSync("./src/dump.json"));
@@ -42,6 +43,11 @@ client.on("message", msg =>{
 //Dice. Send throw results as embed.
 			case "dice":
 				dice.main(msgArray, msg);
+				break;
+
+//Lyrics. Send lyrics scraped from Genius.
+			case "lyrics":
+				lyrics.main(msgArray, msg);
 				break;
 
 //EOTL. Unknown command.
