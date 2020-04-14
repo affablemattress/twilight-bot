@@ -1,6 +1,10 @@
 const fs = require("fs");
 
+const dump = JSON.parse(fs.readFileSync("./src/dump.json"));
 const textDump = JSON.parse(fs.readFileSync("./src/secrets.json"));
+
+var miniHelpText = "For help, type '" + dump.commandChar + "help' or '" + dump.commandChar + "help [command]'.";
+
 
 module.exports = {
 	main: (msgArray, msg) => {
@@ -19,7 +23,6 @@ function main(msgArray, msg){
 				msg.channel.send(textDump.help.lorem);
 				break;
 			default:
-				var miniHelpText = "For help, type '" + dump.commandChar + "help' or '" + dump.commandChar + "help [command]'.";
 				msg.channel.send("Help requested for unknown command [" + msgArray[1] + "]. " + miniHelpText);
 		}
 	}
