@@ -1,5 +1,5 @@
 # twilight-bot 
-An easy to modify Discord bot whose functionality is separated into independent, interchangeable modules.
+An easy to modify Discord bot whose functionality is separated into independent and interchangeable modules.
 
 ### Under Development
 Uses "$" as command prefix by default.
