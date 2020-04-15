@@ -49,12 +49,12 @@ const wolfram = function sendDataAcquiredFromWolframAlphaShortAnswerAPI(msgArray
 					}
 				});
 			} else {
-				console.log('Wolfram ' + response.statusCode);
+				console.log(`Wolfram ${response.statusCode}`);
 				msg.channel.send('WolframAlpha ' + textDump.down);
 			}
 		} else{
 			console.log('Wolfram API did not respond.');
-			msg.channel.send('WolframAlpha ' + textDump.down);
+			msg.channel.send(`WolframAlpha ${textDump.down}`);
 		}
 	});
 }
