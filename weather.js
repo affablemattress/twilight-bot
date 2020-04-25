@@ -7,11 +7,7 @@ const secrets = JSON.parse(fs.readFileSync('./src/secrets.json'));
 
 const helpText = `For help, type '${dump.commandChar}help' or '${dump.commandChar}help [command]'.`;
 
-module.exports = {
-	main: (msgArray, msg) => {
-		main(msgArray, msg);
-	},
-};
+module.exports = main;
 
 //WRAPPER FUNCTION
 const main = function (msgArray, msg) {

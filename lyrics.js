@@ -19,11 +19,7 @@ let details = {
 	lyrics: []
 };
 
-module.exports = {
-	main: (msgArray, msg) => {
-		main(msgArray, msg);
-	}
-};
+module.exports = main;
 
 //WRAPPER FUNCTION
 const main = function(msgArray, msg) {

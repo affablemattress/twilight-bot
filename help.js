@@ -6,11 +6,7 @@ const textDump = JSON.parse(fs.readFileSync("./src/secrets.json"));
 var miniHelpText = "For help, type '" + dump.commandChar + "help' or '" + dump.commandChar + "help [command]'.";
 
 
-module.exports = {
-	main: (msgArray, msg) => {
-		main(msgArray, msg);
-	},
-};
+module.exports = main;
 
 
 //Send help text from "textDump.json"
