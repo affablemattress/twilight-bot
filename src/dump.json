@@ -1,0 +1,15 @@
+{
+	"defaultCommandChar": "$",
+	"commandChar": "$",
+	"botIconURL": "https://i.imgur.com/E4qAHgj.jpg",
+	"HALIconURL": "https://i.imgur.com/8T76TDF.png",
+	"d20IconURL": "https://i.imgur.com/NuEYiTd.png",
+	"diceURL": {
+		"1": "https://i.imgur.com/psvEXxt.png",
+		"2": "https://i.imgur.com/disY4Cv.png",
+		"3": "https://i.imgur.com/bR9TZUI.png",
+		"4": "https://i.imgur.com/DpYa9oQ.png",
+		"5": "https://i.imgur.com/idLeBjR.png",
+		"6": "https://i.imgur.com/yvP1EQN.png"
+	}
+}

@@ -1,0 +1,19 @@
+{
+  "name": "twilight-bot",
+  "version": "1.0.0",
+  "description": "Twilight Discord bot NPM package.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Discord"
+  ],
+  "author": "affablemattress",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.1.1",
+    "http": "0.0.1-security",
+    "request": "^2.88.2"
+  }
+}
