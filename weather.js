@@ -7,15 +7,8 @@ const secrets = JSON.parse(fs.readFileSync('./src/secrets.json'));
 
 const helpText = `For help, type '${dump.commandChar}help' or '${dump.commandChar}help [command]'.`;
 
-<<<<<<< HEAD
 //WRAPPER FUNCTION
 const main = async function (msgArray, msg) {
-=======
-module.exports = main;
-
-//WRAPPER FUNCTION
-const main = function (msgArray, msg) {
->>>>>>> 3d28a6a9f119b2a618c595576e41d9da57056465
 	if (msgArray.length < 2) {
 		msg.channel.send(`Invalid weather command. ${helpText}`);
 	} else {
@@ -29,11 +22,8 @@ const main = function (msgArray, msg) {
 	}
 }
 
-<<<<<<< HEAD
 module.exports.main = main;
 
-=======
->>>>>>> 3d28a6a9f119b2a618c595576e41d9da57056465
 const dateToText = function convertDateObjectsPropertiesToString(time) {
 	let hours = time.getHours() < 10 ? '0' + time.getHours() : time.getHours();
 	let minutes = time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
@@ -45,11 +35,7 @@ const now = function sendDataAcquiredFromOpenWeatherMapCurrentWeatherAPI(msgArra
 	for (var i = 1; i < msgArray.length; i++) queryText += ' ' + msgArray[i];
 	queryText = queryText.trim();
 	while (queryText.includes('+')) queryText = queryText.replace('+', '%2B');
-<<<<<<< HEAD
 	const APIEndpoint = `${secrets.api.openWeatherMap.URL}weather?q=${queryText}&units=metric&appid=${secrets.api.openWeatherMap.key}`
-=======
-	let APIEndpoint = `${secrets.api.openWeatherMap.URL}weather?q=${queryText}&units=metric&appid=${secrets.api.openWeatherMap.key}`
->>>>>>> 3d28a6a9f119b2a618c595576e41d9da57056465
 	request.get(APIEndpoint, (error, response, data) => {
 		if (response) {
 			if (response.statusCode == 200) {
@@ -104,11 +90,7 @@ const forecast = function sendDataAcquiredFromOpenWeatherMapFiveDayForecastAPI(m
 	for (var i = 2; i < msgArray.length; i++) queryText += ' ' + msgArray[i];
 	queryText = queryText.trim();
 	while (queryText.includes('+')) queryText = queryText.replace('+', '%2B');
-<<<<<<< HEAD
 	const APIEndpoint = `${secrets.api.openWeatherMap.URL}forecast?q=${queryText}&units=metric&appid=${secrets.api.openWeatherMap.key}`;
-=======
-	let APIEndpoint = `${secrets.api.openWeatherMap.URL}forecast?q=${queryText}&units=metric&appid=${secrets.api.openWeatherMap.key}`;
->>>>>>> 3d28a6a9f119b2a618c595576e41d9da57056465
 	request.get(APIEndpoint, (error, response, data) => {
 		if(response){	
 			if (response.statusCode == 200) {

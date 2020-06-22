@@ -4,16 +4,8 @@ const dump = JSON.parse(fs.readFileSync('./src/dump.json'));
 
 const helpText = `For help, type '${dump.commandChar}help' or '${dump.commandChar}help [command]'.`;
 
-<<<<<<< HEAD
 //WRAPPER FUNCTION
 const main = async function (msgArray, msg) {
-=======
-module.exports = main;
-
-
-//WRAPPER FUNCTION
-function main(msgArray, msg){
->>>>>>> 3d28a6a9f119b2a618c595576e41d9da57056465
 	if (msgArray.length == 1) {
 		die(msg);
 	} else {
@@ -21,11 +13,8 @@ function main(msgArray, msg){
 	}
 }
 
-<<<<<<< HEAD
 module.exports.main = main;
 
-=======
->>>>>>> 3d28a6a9f119b2a618c595576e41d9da57056465
 const die = function rollDieThenSendResult(msg) {
 	let roll = Math.ceil(Math.random() * 6).toString();
 	let rollText = "";
@@ -182,8 +171,4 @@ const dice = function validateInputRollDiceApplyModifiersSendResult(queryInput, 
 			}
 		});
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 3d28a6a9f119b2a618c595576e41d9da57056465

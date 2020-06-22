@@ -7,15 +7,8 @@ const secrets = JSON.parse(fs.readFileSync('./src/secrets.json'));
 
 const helpText = `For help, type '${dump.commandChar}help' or '${dump.commandChar}help [command]'.`;
 
-<<<<<<< HEAD
 //WRAPPER FUNCTION
 const main = async function (msgArray, msg) {
-=======
-module.exports = main;
-
-//WRAPPER FUNCTION
-function main(msgArray, msg){
->>>>>>> 3d28a6a9f119b2a618c595576e41d9da57056465
 	if (msgArray.length < 2) {
 		msg.channel.send(`Invalid wolfram command. ${helpText}`);
 	} else {
@@ -23,21 +16,14 @@ function main(msgArray, msg){
 	}
 }
 
-<<<<<<< HEAD
 module.exports.main = main;
 
-=======
->>>>>>> 3d28a6a9f119b2a618c595576e41d9da57056465
 const wolfram = function sendDataAcquiredFromWolframAlphaShortAnswerAPI(msgArray, msg) {
 	let queryText = '';
 	for (var i = 1; i < msgArray.length; i++) queryText += ' ' + msgArray[i];
 	let search = queryText.trim();
 	while (queryText.includes('+')) queryText = queryText.replace('+', '%2B');
-<<<<<<< HEAD
 	const APIEndpoint = `${secrets.api.wolframAlpha.URL}result?i=${queryText}&units=metric&appid=${secrets.api.wolframAlpha.key}`;
-=======
-	let APIEndpoint = `${secrets.api.wolframAlpha.URL}result?i=${queryText}&units=metric&appid=${secrets.api.wolframAlpha.key}`;
->>>>>>> 3d28a6a9f119b2a618c595576e41d9da57056465
 	request.get(APIEndpoint, (error, response, data) => {
 		if (response) {	
 			if (response.statusCode == 200 || response.statusCode == 501) {

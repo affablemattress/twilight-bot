@@ -19,15 +19,8 @@ let details = {
 	lyrics: []
 };
 
-<<<<<<< HEAD
 //WRAPPER FUNCTION
 const main = async function (msgArray, msg) {
-=======
-module.exports = main;
-
-//WRAPPER FUNCTION
-const main = function(msgArray, msg) {
->>>>>>> 3d28a6a9f119b2a618c595576e41d9da57056465
 	if (msgArray.length < 2) {
 		msg.channel.send(`Invalid lyrics command. ${helpText}`);
 	} else {
@@ -35,17 +28,11 @@ const main = function(msgArray, msg) {
 	}
 }
 
-<<<<<<< HEAD
 module.exports.main = main;
 
 const getDetails = function getTrackDetailsFromGeniusAPI(queryText, msg) {
 	return new Promise((resolve, reject) => {
 		const APIEndpoint = `${secrets.api.genius.URL}search?q=${queryText}&access_token=${secrets.api.genius.key}`;
-=======
-const getDetails = function getTrackDetailsFromGeniusAPI(queryText, msg) {
-	return new Promise((resolve, reject) => {
-		let APIEndpoint = `${secrets.api.genius.URL}search?q=${queryText}&access_token=${secrets.api.genius.key}`;
->>>>>>> 3d28a6a9f119b2a618c595576e41d9da57056465
 		request.get(APIEndpoint, (error, response, data) => {
 			if (response){
 				if (response.statusCode == 200) {
