@@ -1,9 +1,9 @@
 const fs = require('fs');
 const request = require('request');
 
-const dump = JSON.parse(fs.readFileSync('./src/dump.json'));
-const textDump = JSON.parse(fs.readFileSync('./src/textDump.json'));
-const secrets = JSON.parse(fs.readFileSync('./src/secrets.json'));
+const dump = JSON.parse(fs.readFileSync(__dirname + '/../src/dump.json'));
+const textDump = JSON.parse(fs.readFileSync(__dirname + '/../src/textDump.json'));
+const secrets = JSON.parse(fs.readFileSync(__dirname + '/../src/secrets.json'));
 
 const helpText = `For help, type '${dump.commandChar}help' or '${dump.commandChar}help [command]'.`;
 
@@ -35,7 +35,7 @@ const now = function sendDataAcquiredFromOpenWeatherMapCurrentWeatherAPI(msgArra
 	for (var i = 1; i < msgArray.length; i++) queryText += ' ' + msgArray[i];
 	queryText = queryText.trim();
 	while (queryText.includes('+')) queryText = queryText.replace('+', '%2B');
-	const APIEndpoint = `${secrets.api.openWeatherMap.URL}weather?q=${queryText}&units=metric&appid=${secrets.api.openWeatherMap.key}`
+	const APIEndpoint = `${dump.api.openWeatherMap.URL}weather?q=${queryText}&units=metric&appid=${secrets.api.openWeatherMap}`
 	request.get(APIEndpoint, (error, response, data) => {
 		if (response) {
 			if (response.statusCode == 200) {
@@ -68,7 +68,7 @@ const now = function sendDataAcquiredFromOpenWeatherMapCurrentWeatherAPI(msgArra
 						},
 						footer: {
 							text: 'Weather data acquired from Open Weather Map',
-							icon_url: secrets.api.openWeatherMap.iconURL
+							icon_url: pump.api.openWeatherMap.iconURL
 						}
 					}
 				});
@@ -90,7 +90,7 @@ const forecast = function sendDataAcquiredFromOpenWeatherMapFiveDayForecastAPI(m
 	for (var i = 2; i < msgArray.length; i++) queryText += ' ' + msgArray[i];
 	queryText = queryText.trim();
 	while (queryText.includes('+')) queryText = queryText.replace('+', '%2B');
-	const APIEndpoint = `${secrets.api.openWeatherMap.URL}forecast?q=${queryText}&units=metric&appid=${secrets.api.openWeatherMap.key}`;
+	const APIEndpoint = `${dump.api.openWeatherMap.URL}forecast?q=${queryText}&units=metric&appid=${secrets.api.openWeatherMap}`;
 	request.get(APIEndpoint, (error, response, data) => {
 		if(response){	
 			if (response.statusCode == 200) {
@@ -138,7 +138,7 @@ const forecast = function sendDataAcquiredFromOpenWeatherMapFiveDayForecastAPI(m
 						],
 						footer: {
 							text: 'Weather data acquired from Open Weather Map',
-							icon_url: secrets.api.openWeatherMap.iconURL
+							icon_url: dump.api.openWeatherMap.iconURL
 						}
 					}
 				});

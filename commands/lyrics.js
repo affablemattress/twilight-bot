@@ -2,9 +2,9 @@ const fs = require('fs');
 const request = require('request');
 const cheerio = require('cheerio');
 
-const dump = JSON.parse(fs.readFileSync('./src/dump.json'));
-const textDump = JSON.parse(fs.readFileSync('./src/textDump.json'));
-const secrets = JSON.parse(fs.readFileSync('./src/secrets.json'));
+const dump = JSON.parse(fs.readFileSync(__dirname + '/../src/dump.json'));
+const textDump = JSON.parse(fs.readFileSync(__dirname + '/../src/textDump.json'));
+const secrets = JSON.parse(fs.readFileSync(__dirname + '/../src/secrets.json'));
 
 const helpText = `For help, type '${dump.commandChar}help' or '${dump.commandChar}help [command]'.`;
 
@@ -32,7 +32,7 @@ module.exports.main = main;
 
 const getDetails = function getTrackDetailsFromGeniusAPI(queryText, msg) {
 	return new Promise((resolve, reject) => {
-		const APIEndpoint = `${secrets.api.genius.URL}search?q=${queryText}&access_token=${secrets.api.genius.key}`;
+		const APIEndpoint = `${dump.api.genius.URL}search?q=${queryText}&access_token=${secrets.api.genius}`;
 		request.get(APIEndpoint, (error, response, data) => {
 			if (response){
 				if (response.statusCode == 200) {
@@ -235,7 +235,7 @@ const genius = async function sendDataAcquiredFromGeniusWebsite(msgArray, msg) {
 						...{
 							footer: {
 								text: 'Lyrics acquired from Genius',
-								icon_url: secrets.api.genius.iconURL
+								icon_url: dump.api.genius.iconURL
 							}
 						}
 					};

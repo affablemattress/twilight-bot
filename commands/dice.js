@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const dump = JSON.parse(fs.readFileSync('./src/dump.json'));
+const dump = JSON.parse(fs.readFileSync(__dirname + '/../src/dump.json'));
 
 const helpText = `For help, type '${dump.commandChar}help' or '${dump.commandChar}help [command]'.`;
 

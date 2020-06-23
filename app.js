@@ -1,10 +1,10 @@
 const Discord = require('discord.js');
 const fs = require('fs');
-const help = require('./help.js');
-const dice = require('./dice.js');
-const lyrics = require('./lyrics.js');
-const wolfram = require('./wolfram.js');
-const weather = require('./weather.js');
+const help = require('./commands/help.js');
+const dice = require('./commands/dice.js');
+const lyrics = require('./commands/lyrics.js');
+const wolfram = require('./commands/wolfram.js');
+const weather = require('./commands/weather.js');
 
 const secrets = JSON.parse(fs.readFileSync('./src/secrets.json'));
 const dump = JSON.parse(fs.readFileSync('./src/dump.json'));

@@ -11,5 +11,19 @@
 		"4": "https://i.imgur.com/DpYa9oQ.png",
 		"5": "https://i.imgur.com/idLeBjR.png",
 		"6": "https://i.imgur.com/yvP1EQN.png"
+	},
+	"api": {
+		"openWeatherMap": {
+			"URL": "http://api.openweathermap.org/data/2.5/",
+			"iconURL": "https://i.imgur.com/JnfTO9l.png"
+		},
+		"wolframAlpha": {
+			"URL": "http://api.wolframalpha.com/v1/",
+			"iconURL": "https://i.imgur.com/u3SR3zi.png"
+		},
+		"genius": {
+			"URL": "http://api.genius.com/",
+			"iconURL": "https://i.imgur.com/UgWqq8U.png"
+		}
 	}
 }

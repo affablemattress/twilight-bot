@@ -1,9 +1,9 @@
 const fs = require('fs');
 const request = require('request');
 
-const dump = JSON.parse(fs.readFileSync('./src/dump.json'));
-const textDump = JSON.parse(fs.readFileSync('./src/textDump.json'));
-const secrets = JSON.parse(fs.readFileSync('./src/secrets.json'));
+const dump = JSON.parse(fs.readFileSync(__dirname + '/../src/dump.json'));
+const textDump = JSON.parse(fs.readFileSync(__dirname + '/../src/textDump.json'));
+const secrets = JSON.parse(fs.readFileSync(__dirname + '/../src/secrets.json'));
 
 const helpText = `For help, type '${dump.commandChar}help' or '${dump.commandChar}help [command]'.`;
 
@@ -23,7 +23,7 @@ const wolfram = function sendDataAcquiredFromWolframAlphaShortAnswerAPI(msgArray
 	for (var i = 1; i < msgArray.length; i++) queryText += ' ' + msgArray[i];
 	let search = queryText.trim();
 	while (queryText.includes('+')) queryText = queryText.replace('+', '%2B');
-	const APIEndpoint = `${secrets.api.wolframAlpha.URL}result?i=${queryText}&units=metric&appid=${secrets.api.wolframAlpha.key}`;
+	const APIEndpoint = `${dump.api.wolframAlpha.URL}result?i=${queryText}&units=metric&appid=${secrets.api.wolframAlpha}`;
 	request.get(APIEndpoint, (error, response, data) => {
 		if (response) {	
 			if (response.statusCode == 200 || response.statusCode == 501) {
@@ -40,7 +40,7 @@ const wolfram = function sendDataAcquiredFromWolframAlphaShortAnswerAPI(msgArray
 						description: data.toString(),
 						footer: {
 							text: 'Data acquired from Wolfram|Alpha',
-							icon_url: secrets.api.wolframAlpha.iconURL
+							icon_url: dump.api.wolframAlpha.iconURL
 						}
 					}
 				});
