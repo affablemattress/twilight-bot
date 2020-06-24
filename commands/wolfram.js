@@ -1,16 +1,13 @@
 const fs = require('fs');
 const request = require('request');
 
-const dump = JSON.parse(fs.readFileSync(__dirname + '/../src/dump.json'));
-const textDump = JSON.parse(fs.readFileSync(__dirname + '/../src/textDump.json'));
+const storage = JSON.parse(fs.readFileSync(__dirname + '/../src/storage.json'));
 const secrets = JSON.parse(fs.readFileSync(__dirname + '/../src/secrets.json'));
 
-const helpText = `For help, type '${dump.commandChar}help' or '${dump.commandChar}help [command]'.`;
-
 //WRAPPER FUNCTION
-const main = async function (msgArray, msg) {
+const main = async function (msgArray, msg, prefix) {
 	if (msgArray.length < 2) {
-		msg.channel.send(`Invalid wolfram command. ${helpText}`);
+		msg.channel.send(`Invalid wolfram command. For help, type '${prefix}help' or '${prefix}help [command]'.`);
 	} else {
 		wolfram(msgArray, msg);
 	}
@@ -23,7 +20,7 @@ const wolfram = function sendDataAcquiredFromWolframAlphaShortAnswerAPI(msgArray
 	for (var i = 1; i < msgArray.length; i++) queryText += ' ' + msgArray[i];
 	let search = queryText.trim();
 	while (queryText.includes('+')) queryText = queryText.replace('+', '%2B');
-	const APIEndpoint = `${dump.api.wolframAlpha.URL}result?i=${queryText}&units=metric&appid=${secrets.api.wolframAlpha}`;
+	const APIEndpoint = `${storage.api.wolframAlpha.URL}result?i=${queryText}&units=metric&appid=${secrets.api.wolframAlpha}`;
 	request.get(APIEndpoint, (error, response, data) => {
 		if (response) {	
 			if (response.statusCode == 200 || response.statusCode == 501) {
@@ -34,23 +31,23 @@ const wolfram = function sendDataAcquiredFromWolframAlphaShortAnswerAPI(msgArray
 						color: 0x00cbb0,
 						author: {
 							name: 'Twilight Bot',
-							icon_url: dump.botIconURL,
+							icon_url: storage.botIconURL,
 						},
 						title: search,
 						description: data.toString(),
 						footer: {
 							text: 'Data acquired from Wolfram|Alpha',
-							icon_url: dump.api.wolframAlpha.iconURL
+							icon_url: storage.api.wolframAlpha.iconURL
 						}
 					}
 				});
 			} else {
 				console.log(`Wolfram ${response.statusCode}`);
-				msg.channel.send('WolframAlpha ' + textDump.down);
+				msg.channel.send('WolframAlpha is down for a while. Try again later.');
 			}
 		} else{
 			console.log('Wolfram API did not respond.');
-			msg.channel.send(`WolframAlpha ${textDump.down}`);
+			msg.channel.send(`WolframAlpha is down for a while. Try again later.`);
 		}
 	});
 }

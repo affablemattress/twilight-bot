@@ -14,7 +14,7 @@ const main = async function (msgArray, msg, prefix) {
 
 module.exports.main = main;
 
-const showPrefix = function sendGuildPrefix(msg, prefix) {
+const showPrefix = async function sendGuildPrefix(msg, prefix) {
 	msg.channel.send({
 		embed: {
 			color: 0x00cbb0,
@@ -28,7 +28,7 @@ const showPrefix = function sendGuildPrefix(msg, prefix) {
 	});
 }
 
-const editPrefix = function editGuildPrefixAtPrefixStorage(msgArray, msg) {
+const editPrefix = async function editGuildPrefixAtPrefixStorage(msgArray, msg) {
 	if (/[^a-zA-Z\d\s:@]/.test(msgArray[1].slice(0, 1))) {
 		prefixStorage = JSON.parse(fs.readFileSync(__dirname + '/../src/prefixStorage.json'));
 		prefixStorage.prefixes[msg.guild.id] = msgArray[1].slice(0, 1);

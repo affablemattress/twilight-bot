@@ -1,16 +1,13 @@
 const fs = require('fs');
 const request = require('request');
 
-const dump = JSON.parse(fs.readFileSync(__dirname + '/../src/dump.json'));
-const textDump = JSON.parse(fs.readFileSync(__dirname + '/../src/textDump.json'));
+const storage = JSON.parse(fs.readFileSync(__dirname + '/../src/storage.json'));
 const secrets = JSON.parse(fs.readFileSync(__dirname + '/../src/secrets.json'));
 
-const helpText = `For help, type '${dump.commandChar}help' or '${dump.commandChar}help [command]'.`;
-
 //WRAPPER FUNCTION
-const main = async function (msgArray, msg) {
+const main = async function (msgArray, msg, prefix) {
 	if (msgArray.length < 2) {
-		msg.channel.send(`Invalid weather command. ${helpText}`);
+		msg.channel.send(`Invalid weather command. For help, type '${prefix}help' or '${prefix}help [command]'.`);
 	} else {
 		switch (msgArray[1]) {
 			case 'forecast':
@@ -35,7 +32,7 @@ const now = function sendDataAcquiredFromOpenWeatherMapCurrentWeatherAPI(msgArra
 	for (var i = 1; i < msgArray.length; i++) queryText += ' ' + msgArray[i];
 	queryText = queryText.trim();
 	while (queryText.includes('+')) queryText = queryText.replace('+', '%2B');
-	const APIEndpoint = `${dump.api.openWeatherMap.URL}weather?q=${queryText}&units=metric&appid=${secrets.api.openWeatherMap}`
+	const APIEndpoint = `${storage.api.openWeatherMap.URL}weather?q=${queryText}&units=metric&appid=${secrets.api.openWeatherMap}`
 	request.get(APIEndpoint, (error, response, data) => {
 		if (response) {
 			if (response.statusCode == 200) {
@@ -48,7 +45,7 @@ const now = function sendDataAcquiredFromOpenWeatherMapCurrentWeatherAPI(msgArra
 						color: 0x00cbb0,
 						author: {
 							name: 'Twilight Bot',
-							icon_url: dump.botIconURL,
+							icon_url: storage.botIconURL,
 						},
 						title: `Current Weather in '${GETData.name}'`,
 						description: `Sunrise: ${sunriseText} & Sunset: ${sunsetText} GMT${GMTText}`,
@@ -68,19 +65,19 @@ const now = function sendDataAcquiredFromOpenWeatherMapCurrentWeatherAPI(msgArra
 						},
 						footer: {
 							text: 'Weather data acquired from Open Weather Map',
-							icon_url: pump.api.openWeatherMap.iconURL
+							icon_url: storage.api.openWeatherMap.iconURL
 						}
 					}
 				});
 			} else if (response.statusCode == 404) {
-				msg.channel.send(textDump.invalidProvince);
+				msg.channel.send('Make sure you have entered a valid province name.');
 			} else {
 				console.log('Open Weather Map' + response.statusCode);
-				msg.channel.send('Weather forecast service ' + textDump.down);
+				msg.channel.send('Weather forecast service is down for a while. Try again later.');
 			}
 		} else {
 			console.log('Open Weather Map Now API did not respond.');
-			msg.channel.send('Weather forecast service ' + textDump.down);
+			msg.channel.send('Weather forecast service is down for a while. Try again later.');
 		}
 	});
 }
@@ -90,7 +87,7 @@ const forecast = function sendDataAcquiredFromOpenWeatherMapFiveDayForecastAPI(m
 	for (var i = 2; i < msgArray.length; i++) queryText += ' ' + msgArray[i];
 	queryText = queryText.trim();
 	while (queryText.includes('+')) queryText = queryText.replace('+', '%2B');
-	const APIEndpoint = `${dump.api.openWeatherMap.URL}forecast?q=${queryText}&units=metric&appid=${secrets.api.openWeatherMap}`;
+	const APIEndpoint = `${storage.api.openWeatherMap.URL}forecast?q=${queryText}&units=metric&appid=${secrets.api.openWeatherMap}`;
 	request.get(APIEndpoint, (error, response, data) => {
 		if(response){	
 			if (response.statusCode == 200) {
@@ -107,7 +104,7 @@ const forecast = function sendDataAcquiredFromOpenWeatherMapFiveDayForecastAPI(m
 						color: 0x00cbb0,
 						author: {
 							name: 'Twilight Bot',
-							icon_url: dump.botIconURL,
+							icon_url: storage.botIconURL,
 						},
 						title: `Weather Forecast for '${GETData.city.name}'`,
 						fields: [{
@@ -138,19 +135,19 @@ const forecast = function sendDataAcquiredFromOpenWeatherMapFiveDayForecastAPI(m
 						],
 						footer: {
 							text: 'Weather data acquired from Open Weather Map',
-							icon_url: dump.api.openWeatherMap.iconURL
+							icon_url: storage.api.openWeatherMap.iconURL
 						}
 					}
 				});
 			} else if (response.statusCode == 404) {
-				msg.channel.send(textDump.invalidProvince);
+				msg.channel.send('Make sure you have entered a valid province name.');
 			} else {
 				console.log(`Open Weather Map ${response.statusCode}`);
-				msg.channel.send(`Weather forecast service ${textDump.down}`);
+				msg.channel.send(`Weather forecast service is down for a while. Try again later.`);
 			}
 		} else{
 			console.log('Open Weather Map did not respond.');
-			msg.channel.send(`Weather forecast service ${textDump.down}`);
+			msg.channel.send(`Weather forecast service is down for a while. Try again later.`);
 		}
 	});
 }

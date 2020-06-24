@@ -1,15 +1,13 @@
 const fs = require('fs');
 
-const dump = JSON.parse(fs.readFileSync(__dirname + '/../src/dump.json'));
-
-const helpText = `For help, type '${dump.commandChar}help' or '${dump.commandChar}help [command]'.`;
+const storage = JSON.parse(fs.readFileSync(__dirname + '/../src/storage.json'));
 
 //WRAPPER FUNCTION
-const main = async function (msgArray, msg) {
+const main = async function (msgArray, msg, prefix) {
 	if (msgArray.length == 1) {
 		die(msg);
 	} else {
-		dice(msgArray.slice(1), msg);
+		dice(msgArray.slice(1), msg, prefix);
 	}
 }
 
@@ -36,11 +34,11 @@ const die = function rollDieThenSendResult(msg) {
 				color: 0x00cbb0,
 				author: {
 					name: 'Twilight Bot',
-					icon_url: dump.botIconURL,
+					icon_url: storage.botIconURL,
 				},
 				title: 'Rolling for ' + msg.author.username + '...',
 				image: {
-					url: dump.diceURL[roll],
+					url: storage.diceURL[roll],
 				},
 			}, 
 			...rollText
@@ -48,17 +46,17 @@ const die = function rollDieThenSendResult(msg) {
 	});
 }
 
-const dice = function validateInputRollDiceApplyModifiersSendResult(queryInput, msg) {
+const dice = function validateInputRollDiceApplyModifiersSendResult(queryInput, msg, prefix) {
 	let HALEmbed = {
 		color: 0x00cbb0,
 		author: {
 			name: 'HAL 9000',
-			icon_url: dump.HALIconURL,
+			icon_url: storage.HALIconURL,
 		},
 		title: `I'm sorry ${msg.author.username}, I'm afraid I can't do that.`,
 		description: 'I think you know what the problem is just as well as I do.',
 		footer: {
-			text: helpText
+			text: `For help, type '${prefix}help' or '${prefix}help [command]'.`
 		}
 	}
 	if (queryInput.length > 10) {
@@ -157,16 +155,16 @@ const dice = function validateInputRollDiceApplyModifiersSendResult(queryInput, 
 				color: 0x00cbb0,
 				author: {
 					name: 'Twilight Bot',
-					icon_url: dump.botIconURL,
+					icon_url: storage.botIconURL,
 				},
 				title: `Rolled for ${msg.author.username}.`,
 				description: `Rolled ${numberOfDice} dice. Total: ${sum}`,
 				fields: fields,
 				thumbnail: {
-					url: dump.d20IconURL,
+					url: storage.d20IconURL,
 				},
 				footer: {
-					text: helpText
+					text: `For help, type '${prefix}help' or '${prefix}help [command]'.`
 				}
 			}
 		});

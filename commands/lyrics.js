@@ -2,11 +2,8 @@ const fs = require('fs');
 const request = require('request');
 const cheerio = require('cheerio');
 
-const dump = JSON.parse(fs.readFileSync(__dirname + '/../src/dump.json'));
-const textDump = JSON.parse(fs.readFileSync(__dirname + '/../src/textDump.json'));
+const storage = JSON.parse(fs.readFileSync(__dirname + '/../src/storage.json'));
 const secrets = JSON.parse(fs.readFileSync(__dirname + '/../src/secrets.json'));
-
-const helpText = `For help, type '${dump.commandChar}help' or '${dump.commandChar}help [command]'.`;
 
 let details = {
 	success: false,
@@ -20,19 +17,19 @@ let details = {
 };
 
 //WRAPPER FUNCTION
-const main = async function (msgArray, msg) {
+const main = async function (msgArray, msg, prefix) {
 	if (msgArray.length < 2) {
-		msg.channel.send(`Invalid lyrics command. ${helpText}`);
+		msg.channel.send(`Invalid lyrics command. For help, type '${prefix}help' or '${prefix}help [command]'.`);
 	} else {
-		genius(msgArray, msg);
+		genius(msgArray, msg, prefix);
 	}
 }
 
 module.exports.main = main;
 
-const getDetails = function getTrackDetailsFromGeniusAPI(queryText, msg) {
+const getDetails = function getTrackDetailsFromGeniusAPI(queryText, msg, prefix) {
 	return new Promise((resolve, reject) => {
-		const APIEndpoint = `${dump.api.genius.URL}search?q=${queryText}&access_token=${secrets.api.genius}`;
+		const APIEndpoint = `${storage.api.genius.URL}search?q=${queryText}&access_token=${secrets.api.genius}`;
 		request.get(APIEndpoint, (error, response, data) => {
 			if (response){
 				if (response.statusCode == 200) {
@@ -51,12 +48,12 @@ const getDetails = function getTrackDetailsFromGeniusAPI(queryText, msg) {
 								color: 0x00cbb0,
 								author: {
 									name: 'Twilight Bot',
-									icon_url: dump.botIconURL,
+									icon_url: storage.botIconURL,
 								},
 								title: `Couldn't find the lyrics for: '${details.search}'`,
 								description: '-sad bot noises-',
 								footer: {
-									text: helpText
+									text: `For help, type '${prefix}help' or '${prefix}help [command]'.`
 								}
 							}
 						});
@@ -64,12 +61,12 @@ const getDetails = function getTrackDetailsFromGeniusAPI(queryText, msg) {
 					}
 				} else {
 					console.log(`Genius API ${response.statusCode}`);
-					msg.channel.send(`Genius ${textDump.down}`);
+					msg.channel.send(`Genius is down for a while. Try again later.`);
 					reject();
 				}
 			} else {
 				console.log('Genius API did not respond.');
-				msg.channel.send(`Genius ${textDump.down}`);
+				msg.channel.send(`Genius is down for a while. Try again later.`);
 				reject();
 			}
 		});
@@ -94,13 +91,13 @@ const getLyrics = function getTracksLyricsFromGeniusWebsite(msg) {
 					}
 				} else {
 					console.log(`Genius scraper ${response.statusCode}`);
-					msg.channel.send(`Genius ${textDump.down}`);
+					msg.channel.send(`Genius is down for a while. Try again later.`);
 					details.success = false
 					reject();
 				}
 			} else{
 				console.log('Genius Website did not respond.');
-				msg.channel.send(`Genius ${textDump.down}`);
+				msg.channel.send(`Genius is down for a while. Try again later.`);
 				details.success = false;
 				reject();
 			}
@@ -108,13 +105,13 @@ const getLyrics = function getTracksLyricsFromGeniusWebsite(msg) {
 	});
 }
 
-const genius = async function sendDataAcquiredFromGeniusWebsite(msgArray, msg) {
+const genius = async function sendDataAcquiredFromGeniusWebsite(msgArray, msg, prefix) {
 	let queryText = '';
 	for (var i = 1; i < msgArray.length; i++) queryText += ' ' + msgArray[i];
 	queryText = queryText.trim();
 	details.search = queryText[0].toUpperCase() + queryText.slice(1);
 	while (queryText.includes('+')) queryText = queryText.replace('+', '%2B');
-	await getDetails(queryText, msg);
+	await getDetails(queryText, msg, prefix);
 	if (details.success) {
 		await getLyrics(msg);
 		if (details.success) {
@@ -220,10 +217,9 @@ const genius = async function sendDataAcquiredFromGeniusWebsite(msgArray, msg) {
 						...{
 							author: {
 								name: 'Twilight Bot',
-								icon_url: dump.botIconURL,
+								icon_url: storage.botIconURL,
 							},
-							title: `Lyrics for '${details.title}'`,
-							description: `By ${details.artist}`,
+							title: `Lyrics for '${details.title}' by ${details.artist}`,
 							thumbnail: {
 								url: details.thumbnailURL,
 							},
@@ -235,7 +231,7 @@ const genius = async function sendDataAcquiredFromGeniusWebsite(msgArray, msg) {
 						...{
 							footer: {
 								text: 'Lyrics acquired from Genius',
-								icon_url: dump.api.genius.iconURL
+								icon_url: storage.api.genius.iconURL
 							}
 						}
 					};
